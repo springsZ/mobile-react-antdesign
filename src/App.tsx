@@ -1,36 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Button } from 'antd-mobile'
-import './App.css'
-
+import { Routes,Route,useNavigate,useLocation  } from 'react-router-dom'
+import { TabBar,Popup} from 'antd-mobile'
+import { tabs } from './router'
+import  './App.css'
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React <Button color='primary'>123</Button></h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+ const pathname = useLocation().pathname
+ const navigate = useNavigate()
+ const setRouteActive = (value: string) => {
+  console.log(value)
+  navigate(value,{state:'1'})
+ }
+ const tabVisible = true
+ return (
+  <>
+   
+    <Routes>
+      {tabs.map(item => (
+        <Route key={item.key} path={item.key} element={item.element} />
+      ))}
+      <Route path="*" element={<div>404</div>} />
+    </Routes>
+    <Popup visible={tabVisible} mask={false}>
+    <TabBar activeKey={pathname} onChange={value => setRouteActive(value)}>
+      {tabs.map(item => (
+        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+      ))}
+    </TabBar>
+    </Popup>
+  </>
+ )
 }
 
 export default App
