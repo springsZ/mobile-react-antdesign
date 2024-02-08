@@ -45,3 +45,8 @@
   font-size: 100px;
   color: red;
 }
+.mask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
